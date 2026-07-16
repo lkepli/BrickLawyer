@@ -15,6 +15,7 @@ setup(
     name='bricklawyer',
     version='0.0.1',
     description='Project Description',
+    python_requires='>=3.9',
     packages=find_packages(),
     install_requires=requirements,
     extras_require={'dev': requirements_dev},
