@@ -6,7 +6,7 @@ def _read_reqs(path: str) -> list[str]:
     if not os.path.isfile(path):
         return []
     with open(path) as f:
-        return [x.strip() for x in f.readlines() if x.strip() and not x.startswith('#') and 'git+' not in x]
+        return [x.strip() for x in f.readlines() if x.strip() and not x.lstrip().startswith('#') and 'git+' not in x]
 
 requirements = _read_reqs('requirements.txt')
 requirements_dev = _read_reqs('requirements_dev.txt')
