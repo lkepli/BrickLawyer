@@ -11,7 +11,7 @@ if [[ $PWD =~ back-end ]]; then
 fi
 
 # Check if a git repo has been initiated
-if [[ ! $(git rev-parse --is-inside-work-tree 2>/dev/null) ]]; then
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo -e "\e[0;33mWARNING: \e[0mYou need to initiate a git repository\e[0m";
   ((warnings++));
 else
