@@ -36,3 +36,7 @@ if ls models/*.py &> /dev/null; then
 fi
 
 echo -e "Found \e[0;31m${errors} errors\e[0m and \e[0;33m${warnings} warnings\e[0m. Please solve these.\e[0m";
+
+if (( errors > 0 )); then
+  exit 1
+fi
