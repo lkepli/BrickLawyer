@@ -1,4 +1,4 @@
 # Run the API locally
 
-cd base_project_back
+# From the repository root:
 uvicorn api.main:app --reload
