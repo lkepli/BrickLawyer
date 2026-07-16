@@ -1,7 +1,8 @@
+#!/usr/bin/env bash
 warnings=0
 errors=0
 
-echo "Running tests for the back end structure";
+echo "Running tests for the back end structure"
 
 # Check if folder has got a proper name
 if [[ $PWD =~ back-end ]]; then
