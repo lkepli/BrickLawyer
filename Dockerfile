@@ -1,13 +1,14 @@
 FROM python:3.10
 
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app
 
-COPY bricklawyer bricklawyer
-COPY api api
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt
 
-RUN mkdir /raw_data
-RUN mkdir /models
+COPY bricklawyer ./bricklawyer
+COPY api ./api
+
+RUN mkdir -p raw_data models
 
 CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8080}
