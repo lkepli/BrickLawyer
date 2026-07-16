@@ -17,3 +17,6 @@ pandas==2.2.3
 # API
 fastapi
 uvicorn
+datasets
+scikit-learn==1.6.1
+joblib
