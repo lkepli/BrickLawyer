@@ -1,9 +1,6 @@
 import os
-from setuptools import find_packages
-from setuptools import setup
-
-import os
 from setuptools import find_packages, setup
+
 
 def _read_reqs(path: str) -> list[str]:
     if not os.path.isfile(path):
