@@ -10,4 +10,4 @@ COPY api api
 RUN mkdir /raw_data
 RUN mkdir /models
 
-CMD uvicorn api.main:app --host 0.0.0.0 --port $PORT
+CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8080}
