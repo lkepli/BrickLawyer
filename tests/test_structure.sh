@@ -16,7 +16,7 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   ((warnings++));
 else
   # Check if git repo at right level
-  if [[ $(git rev-parse --show-toplevel) != $PWD ]]; then
+  if [[ "$(git rev-parse --show-toplevel)" != "$PWD" ]]; then
     echo -e "\e[0;31mERROR:   \e[0mYour git repository should directly contain the back-end files
          at its root level (currently they are in a subfolder)\e[0m";
     ((errors++));
