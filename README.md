@@ -102,9 +102,9 @@ Completed:
 - label distribution and class imbalance analysis
 - baseline TF-IDF + Logistic Regression model
 - full-label and top-20 comparison
+- backend/API structure
+- model integration into the `/predict` endpoint
 
 In progress:
 
-- backend/API structure
-- model integration into the `/predict` endpoint
 - Docker and deployment preparation
