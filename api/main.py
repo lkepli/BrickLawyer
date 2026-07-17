@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from bricklawyer.predict import predict_clause
+
 app = FastAPI()
 
 app.add_middleware(
@@ -16,19 +18,10 @@ app.add_middleware(
 class ClauseRequest(BaseModel):
     text: str
 
-class ClauseResponse(BaseModel):
-    predicted_label: str
-    confidence: float
-    status: str
-
-@app.get("/health")
+@app.get("/")
 def health():
     return {"status": "ok"}
 
-@app.post("/predict", response_model=ClauseResponse)
+@app.post("/predict")
 def predict(req: ClauseRequest):
-    return ClauseResponse(
-        predicted_label="Governing Laws",
-        confidence=0.87,
-        status="mock prediction - model not connected yet"
-    )
+    return predict_clause(req.text)
