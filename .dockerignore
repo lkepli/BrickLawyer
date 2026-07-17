@@ -1,0 +1,8 @@
+.git
+raw_data
+notebooks
+models/ledgar_tfidf_logreg.joblib
+__pycache__
+*.pyc
+.venv
+.env
