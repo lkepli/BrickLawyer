@@ -8,7 +8,6 @@ RUN pip install --no-cache-dir --upgrade pip \
 
 COPY bricklawyer ./bricklawyer
 COPY api ./api
+COPY models/ledgar_tfidf_svm.joblib ./models/ledgar_tfidf_svm.joblib
 
-RUN mkdir -p raw_data models
-
-CMD uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8080}
+CMD exec uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8080}
