@@ -10,12 +10,16 @@ MODEL_PATH = Path(
 _pipeline = joblib.load(MODEL_PATH)
 
 
+LOW_CONFIDENCE_THRESHOLD = 0.6
+
+
 def predict_clause(text: str) -> dict:
     probs = _pipeline.predict_proba([text])[0]
     best_idx = probs.argmax()
+    probability = float(probs[best_idx])
 
     return {
         "predicted_label": _pipeline.classes_[best_idx],
-        "probability": float(probs[best_idx]),
-        "status": "ok",
+        "probability": probability,
+        "status": "ok" if probability >= LOW_CONFIDENCE_THRESHOLD else "low_confidence",
     }
