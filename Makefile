@@ -105,7 +105,8 @@ docker_push:
 	docker push $(DOCKER_IMAGE_PATH):prod
 
 docker_deploy:
-	gcloud run deploy \
+	gcloud run deploy bricklawyer-api \
 		--image $(DOCKER_IMAGE_PATH):prod \
 		--memory $(GAR_MEMORY) \
 		--region $(GCP_REGION) \
+		--allow-unauthenticated

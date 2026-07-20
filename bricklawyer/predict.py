@@ -11,9 +11,11 @@ _pipeline = joblib.load(MODEL_PATH)
 
 
 def predict_clause(text: str) -> dict:
-    predicted_label = _pipeline.predict([text])[0]
+    probs = _pipeline.predict_proba([text])[0]
+    best_idx = probs.argmax()
 
     return {
-        "predicted_label": predicted_label,
+        "predicted_label": _pipeline.classes_[best_idx],
+        "probability": float(probs[best_idx]),
         "status": "ok",
     }
