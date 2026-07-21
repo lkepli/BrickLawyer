@@ -2,7 +2,7 @@
 
 BrickLawyer is a legal NLP prototype for classifying contract clauses into predefined legal clause categories.
 
-The project uses the LEDGAR dataset from LexGLUE and starts with a classical supervised machine learning baseline using TF-IDF and Logistic Regression.
+The project uses the LEDGAR dataset from LexGLUE and provides a supervised machine learning API for predicting the most likely legal clause label from a given contract clause.
 
 ## Project links
 
@@ -10,18 +10,32 @@ The project uses the LEDGAR dataset from LexGLUE and starts with a classical sup
 
 ## Current model
 
-The current baseline model uses:
+The current prediction pipeline uses:
 
 - TF-IDF vectorization
-- Logistic Regression classifier
-- full LEDGAR label set as the main baseline
-- top-20 label experiment as a comparison
+- Linear SVM classifier
+- probability calibration with `CalibratedClassifierCV`
+- full LEDGAR label set as the main classification target
+- top-20 label experiment as an earlier comparison
 
-Current validation results for the full-label baseline:
+We originally tested a Logistic Regression baseline and later compared it with a Linear SVM model. The Linear SVM approach performed better across the main evaluation metrics, so it became the selected model for the prediction endpoint.
+
+Because `LinearSVC` does not support `predict_proba` directly, the classifier is wrapped with `CalibratedClassifierCV`. This allows the API to return a calibrated confidence/probability estimate together with the predicted label.
+
+Current validation results for the full-label baseline are approximately:
 
 - Accuracy: around 83%
 - Macro F1: around 75%
 - Weighted F1: around 82%
+
+## Confidence handling
+
+The API returns a `status` value based on the model confidence.
+
+- If `confidence >= 0.6`, the response status is `ok`.
+- If `confidence < 0.6`, the response status indicates a low-confidence prediction.
+
+This allows the frontend to warn the user when the model is uncertain.
 
 ## Data
 
@@ -38,9 +52,9 @@ This folder is ignored by Git and should not be committed.
 
 The backend uses FastAPI.
 
-Planned local endpoints:
+Available endpoints:
 
-- `GET /health`
+- `GET /`
 - `POST /predict`
 
 Example prediction request:
@@ -57,7 +71,7 @@ Example prediction response:
 {
   "predicted_label": "Governing Laws",
   "confidence": 0.87,
-  "status": "model prediction"
+  "status": "ok"
 }
 ```
 
@@ -88,11 +102,45 @@ Run the API locally:
 uvicorn api.main:app --reload
 ```
 
-Or, if the Makefile is available:
+Or, if using the Makefile:
 
 ```bash
 make run_api
 ```
+
+## Docker
+
+Build the Docker image locally:
+
+```bash
+docker build -t bricklawyer-api .
+```
+
+Run the container locally:
+
+```bash
+docker run -p 8080:8080 bricklawyer-api
+```
+
+Then test the API at:
+
+```text
+http://localhost:8080/
+http://localhost:8080/predict
+```
+
+## Deployment
+
+The backend is prepared for deployment on Google Cloud Run.
+
+The Docker image contains the FastAPI application, runtime dependencies, and the trained model artifact required for prediction.
+
+Deployment steps include:
+
+- build the Docker image
+- push the image to Google Artifact Registry
+- deploy the image to Cloud Run
+- test the public API endpoints
 
 ## Project status
 
@@ -101,10 +149,20 @@ Completed:
 - initial EDA notebook
 - label distribution and class imbalance analysis
 - baseline TF-IDF + Logistic Regression model
+- Linear SVM comparison
+- selected TF-IDF + calibrated Linear SVM model
 - full-label and top-20 comparison
 - backend/API structure
 - model integration into the `/predict` endpoint
+- confidence score returned from the API
+- low-confidence status handling
+- Docker image preparation
+- deployment configuration preparation
 
 In progress:
 
-- Docker and deployment preparation
+- Streamlit frontend
+- frontend/API integration
+- GCP Cloud Run deployment testing
+- final documentation cleanup
+- demo flow and presentation
