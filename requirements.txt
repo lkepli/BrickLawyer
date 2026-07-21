@@ -20,3 +20,5 @@ uvicorn
 datasets
 scikit-learn==1.7.2
 joblib
+streamlit
+requests
