@@ -63,7 +63,7 @@ if st.button("Classify clause", type="primary", use_container_width=True):
                 st.success(f"Predicted label: **{predicted_label}**")
                 st.metric("Confidence", f"{confidence:.0%}")
 
-                if status == "low confidence":
+                if status == "low_confidence":
                     st.warning(
                         "Low confidence prediction. Please review carefully."
                     )
