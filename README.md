@@ -70,7 +70,7 @@ Example prediction response:
 ```json
 {
   "predicted_label": "Governing Laws",
-  "confidence": 0.87,
+  "probability": 0.87,
   "status": "ok"
 }
 ```
@@ -158,11 +158,11 @@ Completed:
 - low-confidence status handling
 - Docker image preparation
 - deployment configuration preparation
+- Streamlit frontend
+- frontend/API integration
 
 In progress:
 
-- Streamlit frontend
-- frontend/API integration
 - GCP Cloud Run deployment testing
 - final documentation cleanup
 - demo flow and presentation
